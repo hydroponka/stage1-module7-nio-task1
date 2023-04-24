@@ -13,12 +13,12 @@ import java.util.Map;
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file) throws IOException {
-        String fileContent;
+    public Profile getDataFromFile(File file) {
+        String fileContent = "";
         try (InputStream inputStream = new FileInputStream(file)){
             fileContent = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IOException(e);
+            System.out.println("Fail");
         }
         Map<String, String> profileData = parseProfileData(fileContent);
         String name = profileData.get("Name");
