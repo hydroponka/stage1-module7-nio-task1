@@ -1,13 +1,11 @@
 package com.epam.mjc.nio;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +13,12 @@ import java.util.Map;
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file) {
+    public Profile getDataFromFile(File file) throws IOException {
         String fileContent;
-        try {
+        try (InputStream inputStream = new FileInputStream(file)){
             fileContent = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
         Map<String, String> profileData = parseProfileData(fileContent);
         String name = profileData.get("Name");
